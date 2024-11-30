@@ -2,5 +2,7 @@
     <string name="app_name">CATIMIAM</string>
     <string name="catimiam">catimiam</string>
     <string name="radiobutton">RadioButton</string>
+    <string name="your_cats">Your Cats:</string>
+    <string name="set_timer">SET TIMER</string>
 
 </resources>
