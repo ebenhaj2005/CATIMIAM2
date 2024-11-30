@@ -41,7 +41,7 @@
         android:id="@+id/button2"
         android:layout_width="239dp"
         android:layout_height="108dp"
-        android:text="Feed now"
+        android:text="@string/feed_now"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
@@ -51,9 +51,10 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Timer for 30 min"
+        android:text="@string/timer_for_30_min"
         android:textSize="20sp"
         tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="500dp" />
+        tools:layout_editor_absoluteY="500dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

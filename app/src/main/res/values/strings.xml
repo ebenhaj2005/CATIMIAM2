@@ -4,5 +4,7 @@
     <string name="radiobutton">RadioButton</string>
     <string name="your_cats">Your Cats:</string>
     <string name="set_timer">SET TIMER</string>
+    <string name="feed_now">Feed now</string>
+    <string name="timer_for_30_min">Timer for 30 min</string>
 
 </resources>
