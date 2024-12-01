@@ -6,5 +6,6 @@
     <string name="set_timer">SET TIMER</string>
     <string name="feed_now">Feed now</string>
     <string name="timer_for_30_min">Timer for 30 min</string>
+    <string name="feed_later">Feed later</string>
 
 </resources>
