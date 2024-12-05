@@ -17,8 +17,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
+
 }
 
 rootProject.name = "CATIMIAM2"
 include(":app")
- 

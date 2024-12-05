@@ -3,9 +3,7 @@ package com.example.catimiam2
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -19,11 +17,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
-private val feedingHistory = mutableListOf<Pair<String, String>>()
 
 class MainActivity : AppCompatActivity() {
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,11 +35,23 @@ class MainActivity : AppCompatActivity() {
         val btnFeednow = findViewById<Button>(R.id.button2)
         val btnFeedlater = findViewById<Button>(R.id.button)
         val foodInput = findViewById<EditText>(R.id.food_input)
+val sharedPreferences = getSharedPreferences("FeedingHistory", MODE_PRIVATE)
+   val editor = sharedPreferences.edit()
+        val feedingHistory = sharedPreferences.getStringSet("history", mutableSetOf()) ?: mutableSetOf()
+
+
 
         btnHistory.setOnClickListener {
             val intent = Intent(this, HistoryActivity::class.java)
+            intent.putExtra("feedingHistory",ArrayList(feedingHistory))
             startActivity(intent)
         }
+
+
+
+
+
+
 
         @SuppressLint("ScheduleExactAlarm")
         fun feedLaterNotification() {
@@ -108,12 +121,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         @SuppressLint("DefaultLocale")
         fun getCurrentTime(): String {
             val calendar = Calendar.getInstance()
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
-            return String.format("%02d:%02d", hour, minute)
+            return String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
         }
 
         btnFeednow.setOnClickListener {
@@ -127,8 +141,12 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             } else {
                 val currentTime = getCurrentTime()
-                Toast.makeText(this, "Feeding recorded at $currentTime", Toast.LENGTH_SHORT)
+                feedingHistory.add("$foodGiven at $currentTime")
+                Toast.makeText(this, "$foodGiven recorded at $currentTime", Toast.LENGTH_SHORT)
                     .show()
+
+                editor.putStringSet("history",feedingHistory)
+                editor.apply()
                 foodInput.text.clear()
             }
         }

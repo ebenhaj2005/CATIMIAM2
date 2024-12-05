@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
 }
 
 android {
@@ -34,7 +35,7 @@ android {
         jvmTarget = "11"
     }
 }
-// dit zijn de livbraries die worden gebruikt in dit project waar veel documentatie over is te vinden op het internet.
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -42,10 +43,15 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 
-    
+
+
 }
