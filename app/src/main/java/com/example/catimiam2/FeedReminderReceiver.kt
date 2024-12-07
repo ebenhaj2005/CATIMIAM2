@@ -1,37 +1,62 @@
 package com.example.catimiam2
 
+
+
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 
 class FeedReminderReceiver : BroadcastReceiver() {
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (context == null) return // Ensure context is not null
-
-        val notification = NotificationCompat.Builder(context, "cat_feed")
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("Reminder!")
-            .setContentText("It's time to feed your cat again.")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .build()
-
-        with(NotificationManagerCompat.from(context)) {
-            if (checkNotificationPermission(context)) {
-                notify(2, notification)
-            }
+        context?.let {
+            showNotification(it)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun checkNotificationPermission(context: Context): Boolean {
-        val permission = android.Manifest.permission.POST_NOTIFICATIONS
-        return androidx.core.content.ContextCompat.checkSelfPermission(
-            context, permission
-        ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+    private fun showNotification(context: Context) {
+        val channelId = "feed_reminder_channel"
+        val notificationId = 1
+
+        // Create an intent to launch MainActivity when the notification is clicked
+        val resultIntent = Intent(context, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            resultIntent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            else
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Create the notification channel (required for Android 8.0+)
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Feed Reminder Notifications",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            channel.description = "Notifications to remind you to feed"
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        // Build the notification
+        val notification = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle("CATIMIAM")
+            .setContentText("Time to feed your cat!")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .build()
+
+        // Show the notification
+        notificationManager.notify(notificationId, notification)
     }
 }
