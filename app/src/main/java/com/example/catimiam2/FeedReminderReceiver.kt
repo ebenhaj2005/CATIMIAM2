@@ -22,7 +22,7 @@ class FeedReminderReceiver : BroadcastReceiver() {
         val channelId = "feed_reminder_channel"
         val notificationId = 1
 
-        // Create an intent to launch MainActivity when the notification is clicked
+
         val resultIntent = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             context,
@@ -34,7 +34,7 @@ class FeedReminderReceiver : BroadcastReceiver() {
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // Create the notification channel (required for Android 8.0+)
+
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -46,7 +46,6 @@ class FeedReminderReceiver : BroadcastReceiver() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        // Build the notification
         val notification = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("CATIMIAM")
@@ -56,7 +55,7 @@ class FeedReminderReceiver : BroadcastReceiver() {
             .setContentIntent(pendingIntent)
             .build()
 
-        // Show the notification
+
         notificationManager.notify(notificationId, notification)
     }
 }

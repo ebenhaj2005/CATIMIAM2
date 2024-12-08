@@ -64,7 +64,7 @@ val sharedPreferences = getSharedPreferences("FeedingHistory", MODE_PRIVATE)
 
 
             val triggerTime = Calendar.getInstance().apply {
-                add(Calendar.MINUTE, 30)
+                add(Calendar.MINUTE,30)
             }.timeInMillis
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
